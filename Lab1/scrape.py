@@ -2,7 +2,9 @@ import json
 
 import requests
 from bs4 import BeautifulSoup
+import functools
 
+from currency_convert import bnm_currency_converter
 from car_model import CarModel
 
 
@@ -63,7 +65,7 @@ def scrape_999_cars_product_page(link: str):
     # extracting the price and currency
     price_data = soup.find_all('li', class_="adPage__content__price-feature__prices__price is-main")[0]
     price = (price_data.find_next('span', class_='adPage__content__price-feature__prices__price__value')
-             .text.replace(' ', '').strip())
+             .text.replace(' ', '').strip().replace(',', '.'))
 
     if price == '' or not price.isdigit():
         print(f'[error]: Price not found on page {link}')
@@ -97,12 +99,12 @@ def scrape_999_cars_product_page(link: str):
         print(f'[error]: Year not found on page {link}')
         return None
 
-    return CarModel(manufacturer, model, price, year, link)
+    return CarModel(manufacturer, model, float(price), 'EUR', year, link)
 
 
 def main():
-    car = scrape_999_cars_product_page('https://999.md/ro/84196506')
-    print(car)
+    links = scrape_999_cars_list_product_links()
+    cars = [scrape_999_cars_product_page(link) for link in links]
 
 
 if __name__ == '__main__':
