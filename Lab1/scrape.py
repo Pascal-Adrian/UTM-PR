@@ -3,6 +3,8 @@ import json
 import requests
 from bs4 import BeautifulSoup
 
+from car_model import CarModel
+
 
 def scrape_999_cars_list_product_links(page: int = 1):
     # getting the configuration from the config.json file
@@ -45,10 +47,62 @@ def scrape_999_cars_list_product_links(page: int = 1):
     return links
 
 
+def scrape_999_cars_product_page(link: str):
+    print(f'[info]: Scraping the page {link} ...')
+
+    # making the request to the url
+    response = requests.get(link)
+
+    if response.status_code != 200:
+        print(f'[error]: Failed to fetch page {link}')
+        raise Exception(f'Failed to fetch page {link}')  # raise exception if the request failed
+
+    # parsing the response
+    soup = BeautifulSoup(response.text, 'html.parser')
+
+    # extracting the price and currency
+    price_data = soup.find_all('li', class_="adPage__content__price-feature__prices__price is-main")[0]
+    price = (price_data.find_next('span', class_='adPage__content__price-feature__prices__price__value')
+             .text.replace(' ', '').strip())
+
+    if price == '' or not price.isdigit():
+        print(f'[error]: Price not found on page {link}')
+        return None  # return None if the price is not valid
+
+    currency = (price_data.find_next('span', class_='adPage__content__price-feature__prices__price__currency')
+                .text.strip())
+
+    if currency != '€':
+        print(f'[error]: Currency is not EUR on page {link}')
+        return None  # return None if the currency is not EUR
+
+    # extracting the manufacturer and model
+    features = soup.find_all('div', class_='adPage__content__features')[0].find_all('li')
+    manufacturer = ''
+    model = ''
+    year = ''
+    for feature in features:
+        if 'Marc' in feature.text:
+            manufacturer = feature.find(attrs={'itemprop': 'value'}).text.strip()
+        if 'Model' in feature.text:
+            model = feature.find(attrs={'itemprop': 'value'}).text.strip()
+        if 'Anul fabrica' in feature.text:
+            year = feature.find(attrs={'itemprop': 'value'}).text.strip()
+
+    if model == '' or manufacturer == '':
+        print(f'[error]: Manufacturer or model not found on page {link}')
+        return None  # return None if the model or manufacturer is not valid
+
+    if year == '' or not year.isdigit():
+        print(f'[error]: Year not found on page {link}')
+        return None
+
+    return CarModel(manufacturer, model, price, year, link)
+
+
 def main():
-    links = scrape_999_cars_list_product_links()
-    for link in links:
-        print(link)
+    car = scrape_999_cars_product_page('https://999.md/ro/84196506')
+    print(car)
 
 
 if __name__ == '__main__':
