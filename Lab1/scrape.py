@@ -3,7 +3,6 @@ from typing import List, Optional
 
 import requests
 from bs4 import BeautifulSoup
-import functools
 
 from Lab1.models import CarModel
 
