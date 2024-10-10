@@ -1,14 +1,20 @@
 import json
+from typing import List, Optional
 
 import requests
 from bs4 import BeautifulSoup
 import functools
 
-from currency_convert import bnm_currency_converter
-from car_model import CarModel
+from Lab1.models import CarModel
 
 
-def scrape_999_cars_list_product_links(page: int = 1):
+def scrape_999_cars_list_product_links(page: int = 1) -> List[str]:
+    """
+    Scrapes the 999.md website for car product links by page.
+    :param page: int value of the page number to scrape; defaults to 1
+    :return: list of strings containing the links to the car product pages
+    """
+
     # getting the configuration from the config.json file
     with open('config.json', 'r') as file:
         config = json.load(file)
@@ -49,7 +55,12 @@ def scrape_999_cars_list_product_links(page: int = 1):
     return links
 
 
-def scrape_999_cars_product_page(link: str):
+def scrape_999_cars_product_page(link: str) -> Optional[CarModel]:
+    """
+    Scrapes the 999.md car add pages for car data and returns a CarModel object.
+    :param link: link to the 999.md car add page
+    :return: CarModel object containing the car data
+    """
     print(f'[info]: Scraping the page {link} ...')
 
     # making the request to the url
@@ -63,10 +74,15 @@ def scrape_999_cars_product_page(link: str):
     soup = BeautifulSoup(response.text, 'html.parser')
 
     # extracting the price and currency
-    price_data = soup.find_all('li', class_="adPage__content__price-feature__prices__price is-main")[0]
+    price_data = soup.find_all('li', class_="adPage__content__price-feature__prices__price is-main")
+    if len(price_data) == 0:
+        print(f'[error]: Price not found on page {link}')
+        return None
+    price_data = price_data[0]
     price = (price_data.find_next('span', class_='adPage__content__price-feature__prices__price__value')
              .text.replace(' ', '').strip().replace(',', '.'))
 
+    # check if the price is valid
     if price == '' or not price.isdigit():
         print(f'[error]: Price not found on page {link}')
         return None  # return None if the price is not valid
@@ -74,6 +90,7 @@ def scrape_999_cars_product_page(link: str):
     currency = (price_data.find_next('span', class_='adPage__content__price-feature__prices__price__currency')
                 .text.strip())
 
+    # check if the currency is EUR
     if currency != '€':
         print(f'[error]: Currency is not EUR on page {link}')
         return None  # return None if the currency is not EUR
@@ -91,21 +108,14 @@ def scrape_999_cars_product_page(link: str):
         if 'Anul fabrica' in feature.text:
             year = feature.find(attrs={'itemprop': 'value'}).text.strip()
 
+    # check if the manufacturer and model are valid
     if model == '' or manufacturer == '':
         print(f'[error]: Manufacturer or model not found on page {link}')
         return None  # return None if the model or manufacturer is not valid
 
+    # check if the year is valid
     if year == '' or not year.isdigit():
         print(f'[error]: Year not found on page {link}')
         return None
 
     return CarModel(manufacturer, model, float(price), 'EUR', year, link)
-
-
-def main():
-    links = scrape_999_cars_list_product_links()
-    cars = [scrape_999_cars_product_page(link) for link in links]
-
-
-if __name__ == '__main__':
-    main()
