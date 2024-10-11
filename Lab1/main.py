@@ -1,7 +1,7 @@
 from functools import reduce
 
 from Lab1.scrape import scrape_999_cars_product_page, scrape_999_cars_list_product_links
-from models import CarModel, TotalPriceModel
+from Lab1.models import CarModel, TotalPriceModel
 from currency import get_bnm_currency_rate
 
 
@@ -23,7 +23,29 @@ def process_cars(cars: list[CarModel], price_low: float, price_high: float, conv
     # calculate the total price
     total_price = reduce(lambda acc, car: acc + car.price, cars, 0.0)
 
+    print("[info]: Successfully processed car models and created the total price model")
+
     return TotalPriceModel(total_price, cars)
+
+
+def save_to_file(string: str, file_name: str, extension: str):
+    print(f"[info]: Saving to file {file_name}.{extension} ...")
+
+    with open(f'{file_name}.{extension}', 'w') as file:
+        if extension == 'xml':
+            file.write('<?xml version="1.0" encoding="UTF-8"?>\n')
+        file.write(string)
+
+    print(f"[info]: Successfully saved to file {file_name}.{extension}")
+
+
+def serialize(cars_list: TotalPriceModel, extension: str):
+    if extension == 'json':
+        save_to_file(cars_list.to_json(), 'cars_list', 'json')
+    elif extension == 'xml':
+        save_to_file(cars_list.to_xml(), 'cars_list', 'xml')
+    else:
+        raise Exception('Invalid extension')  # raise exception if the extension is invalid
 
 
 if __name__ == '__main__':
@@ -34,5 +56,6 @@ if __name__ == '__main__':
         if car is not None:
             cars.append(car)
     cars_list = process_cars(cars, 200000, 260000, True)
-    for car in cars_list.cars:
-        print(car)
+
+    serialize(cars_list, 'json')
+    serialize(cars_list, 'xml')

@@ -1,0 +1,118 @@
+{
+  "total_price": "3108860.6705000005",
+  "cars": [
+    {
+      "manufacturer": "Lexus",
+      "model": "CT Series",
+      "price": 206799.97000000003,
+      "currency": "MDL",
+      "year": "2012",
+      "link": "https://999.md/ro/88603967"
+    },
+    {
+      "manufacturer": "Mercedes",
+      "model": "Vito",
+      "price": 222068.37900000002,
+      "currency": "MDL",
+      "year": "2013",
+      "link": "https://999.md/ro/87946991"
+    },
+    {
+      "manufacturer": "Toyota",
+      "model": "Land Cruiser Prado",
+      "price": 251059.029,
+      "currency": "MDL",
+      "year": "2008",
+      "link": "https://999.md/ro/87765407"
+    },
+    {
+      "manufacturer": "Volkswagen",
+      "model": "Transporter",
+      "price": 222068.37900000002,
+      "currency": "MDL",
+      "year": "2011",
+      "link": "https://999.md/ro/87946892"
+    },
+    {
+      "manufacturer": "Renault",
+      "model": "Megane",
+      "price": 216444.19290000002,
+      "currency": "MDL",
+      "year": "2016",
+      "link": "https://999.md/ro/87577715"
+    },
+    {
+      "manufacturer": "Lexus",
+      "model": "RX Series",
+      "price": 202934.55000000002,
+      "currency": "MDL",
+      "year": "2006",
+      "link": "https://999.md/ro/84425273"
+    },
+    {
+      "manufacturer": "Lexus",
+      "model": "RX Series",
+      "price": 202934.55000000002,
+      "currency": "MDL",
+      "year": "2006",
+      "link": "https://999.md/ro/84425273"
+    },
+    {
+      "manufacturer": "Ford",
+      "model": "Focus",
+      "price": 212404.82900000003,
+      "currency": "MDL",
+      "year": "2019",
+      "link": "https://999.md/ro/87567757"
+    },
+    {
+      "manufacturer": "Ford",
+      "model": "Focus",
+      "price": 238689.68500000003,
+      "currency": "MDL",
+      "year": "2016",
+      "link": "https://999.md/ro/87158133"
+    },
+    {
+      "manufacturer": "Renault",
+      "model": "Talisman",
+      "price": 221275.96790000002,
+      "currency": "MDL",
+      "year": "2017",
+      "link": "https://999.md/ro/88388246"
+    },
+    {
+      "manufacturer": "BMW",
+      "model": "X5",
+      "price": 228059.78000000003,
+      "currency": "MDL",
+      "year": "2006",
+      "link": "https://999.md/ro/86624596"
+    },
+    {
+      "manufacturer": "Renault",
+      "model": "Megane",
+      "price": 211612.41790000003,
+      "currency": "MDL",
+      "year": "2017",
+      "link": "https://999.md/ro/88562252"
+    },
+    {
+      "manufacturer": "Toyota",
+      "model": "Camry",
+      "price": 251232.97290000002,
+      "currency": "MDL",
+      "year": "2011",
+      "link": "https://999.md/ro/87887659"
+    },
+    {
+      "manufacturer": "Ford",
+      "model": "C-Max",
+      "price": 221275.96790000002,
+      "currency": "MDL",
+      "year": "2018",
+      "link": "https://999.md/ro/88386638"
+    }
+  ],
+  "time_stamp": "1728623635.417374"
+}

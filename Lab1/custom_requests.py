@@ -90,7 +90,7 @@ def http_get(url, max_redirects=5):
             location_match = re.search(r"Location: (.+)\r\n", headers)
             if location_match:
                 new_url = location_match.group(1).strip()
-                print(f"[redirect] Redirecting to: {new_url}")
+                print(f"[redirect] Redirecting to: {protocol}://{host}{new_url}")
                 # Handle relative redirects
                 if new_url.startswith("/"):
                     new_url = f"{protocol}://{host}{new_url}"
@@ -100,6 +100,7 @@ def http_get(url, max_redirects=5):
                 redirect_count += 1
                 continue  # Follow the redirect
             else:
+                print(f"[request error] Redirect status code received but no 'Location' header found.")
                 raise RuntimeError("Redirect status code received but no 'Location' header found.")
         else:
             # No redirect, return the headers and body

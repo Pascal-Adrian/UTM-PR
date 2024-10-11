@@ -1,5 +1,6 @@
 from datetime import datetime
 
+
 class CarModel:
     """
     Model for the car. Contains the manufacturer, model, price, currency, year and link.
@@ -19,6 +20,17 @@ class CarModel:
                 f'Price: {self.price} {self.currency}\n'
                 f'URL: {self.link}\n')
 
+    def to_json(self):
+        return str(self.__dict__).replace("'", '"')
+
+    def to_xml(self):
+        string = "<car>"
+        for key, value in self.__dict__.items():
+            string += f'<{key}>{value}</{key}>'
+        return string + "</car>"
+
+
+
 
 class TotalPriceModel:
     """
@@ -34,3 +46,27 @@ class TotalPriceModel:
         return (f'Total price: {self.total_price}\n'
                 f'Number of cars: {len(self.cars)}\n'
                 f'Time stamp: {self.time_stamp}\n')
+
+    def to_json(self):
+        string = "{"
+        for key, value in self.__dict__.items():
+            if key == "cars":
+                string += f'"{key}": ['
+                for car in value:
+                    string += car.to_json() + ", "
+                string = string[:-2] + "], "
+            else:
+                string += f'"{key}": "{value}", '
+        return string[:-2] + "}"
+
+    def to_xml(self):
+        string = "<total>"
+        for key, value in self.__dict__.items():
+            if key == "cars":
+                string += "<cars>"
+                for car in value:
+                    string += car.to_xml()
+                string += "</cars>"
+            else:
+                string += f'<{key}>{value}</{key}>'
+        return string + "</total>"

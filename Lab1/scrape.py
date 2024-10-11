@@ -39,6 +39,7 @@ def scrape_999_cars_list_product_links(page: int = 1, custom_request: bool = Fal
         response = requests.get(url)  # using the requests library
 
     if response.status_code != 200:
+        print(f'[network error]: Failed to fetch page {url}')
         raise Exception(f'Failed to fetch page {url}')
 
     # parsing the response
@@ -76,8 +77,8 @@ def scrape_999_cars_product_page(link: str, custom_request: bool = False) -> Opt
 
 
     if response.status_code != 200:
-        print(f'[error]: Failed to fetch page {link}')
-        raise Exception(f'Failed to fetch page {link}')  # raise exception if the request failed
+        print(f'[network error]: Failed to fetch page')
+        return None  # return None if the request was not successful
 
     # parsing the response
     soup = BeautifulSoup(response.text, 'html.parser')
@@ -85,7 +86,7 @@ def scrape_999_cars_product_page(link: str, custom_request: bool = False) -> Opt
     # extracting the price and currency
     price_data = soup.find_all('li', class_="adPage__content__price-feature__prices__price is-main")
     if len(price_data) == 0:
-        print(f'[error]: Price not found on page {link}')
+        print(f'[error]: Price not found on page')
         return None
     price_data = price_data[0]
     price = (price_data.find_next('span', class_='adPage__content__price-feature__prices__price__value')
@@ -93,7 +94,7 @@ def scrape_999_cars_product_page(link: str, custom_request: bool = False) -> Opt
 
     # check if the price is valid
     if price == '' or not price.isdigit():
-        print(f'[error]: Price not found on page {link}')
+        print(f'[validation error]: Invalid price data')
         return None  # return None if the price is not valid
 
     currency = (price_data.find_next('span', class_='adPage__content__price-feature__prices__price__currency')
@@ -101,7 +102,7 @@ def scrape_999_cars_product_page(link: str, custom_request: bool = False) -> Opt
 
     # check if the currency is EUR
     if currency != '€':
-        print(f'[error]: Currency is not EUR on page {link}')
+        print(f'[validation error]: Currency is not EUR on page')
         return None  # return None if the currency is not EUR
 
     # extracting the manufacturer and model
@@ -119,12 +120,13 @@ def scrape_999_cars_product_page(link: str, custom_request: bool = False) -> Opt
 
     # check if the manufacturer and model are valid
     if model == '' or manufacturer == '':
-        print(f'[error]: Manufacturer or model not found on page {link}')
+        print(f'[validation error]: Manufacturer or model not found on page')
         return None  # return None if the model or manufacturer is not valid
 
     # check if the year is valid
     if year == '' or not year.isdigit():
-        print(f'[error]: Year not found on page {link}')
+        print(f'[validation error]: Year not found on page')
         return None
 
+    print(f'[info]: Successfully scraped the page.')
     return CarModel(manufacturer, model, float(price), 'EUR', year, link)
