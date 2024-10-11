@@ -27,10 +27,10 @@ def process_cars(cars: list[CarModel], price_low: float, price_high: float, conv
 
 
 if __name__ == '__main__':
-    link = scrape_999_cars_list_product_links()
+    link = scrape_999_cars_list_product_links(custom_request=True)
     cars = []
     for l in link:
-        car = scrape_999_cars_product_page(l)
+        car = scrape_999_cars_product_page(l, custom_request=True)
         if car is not None:
             cars.append(car)
     cars_list = process_cars(cars, 200000, 260000, True)

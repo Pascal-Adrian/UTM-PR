@@ -4,13 +4,15 @@ from typing import List, Optional
 import requests
 from bs4 import BeautifulSoup
 
+from Lab1.custom_requests import http_get
 from Lab1.models import CarModel
 
 
-def scrape_999_cars_list_product_links(page: int = 1) -> List[str]:
+def scrape_999_cars_list_product_links(page: int = 1, custom_request: bool = False) -> List[str]:
     """
     Scrapes the 999.md website for car product links by page.
     :param page: int value of the page number to scrape; defaults to 1
+    :param custom_request: bool value to use the custom request implementation; defaults to False (use requests)
     :return: list of strings containing the links to the car product pages
     """
 
@@ -31,7 +33,10 @@ def scrape_999_cars_list_product_links(page: int = 1) -> List[str]:
     print(f'[info]: Scraping the page {url} ...')
 
     # making the request to the url
-    response = requests.get(url)
+    if custom_request:
+        response = http_get(url)  # using the custom request implementation
+    else:
+        response = requests.get(url)  # using the requests library
 
     if response.status_code != 200:
         raise Exception(f'Failed to fetch page {url}')
@@ -54,16 +59,21 @@ def scrape_999_cars_list_product_links(page: int = 1) -> List[str]:
     return links
 
 
-def scrape_999_cars_product_page(link: str) -> Optional[CarModel]:
+def scrape_999_cars_product_page(link: str, custom_request: bool = False) -> Optional[CarModel]:
     """
     Scrapes the 999.md car add pages for car data and returns a CarModel object.
     :param link: link to the 999.md car add page
+    :param custom_request: bool value to use the custom request implementation; defaults to False (use requests)
     :return: CarModel object containing the car data
     """
     print(f'[info]: Scraping the page {link} ...')
 
     # making the request to the url
-    response = requests.get(link)
+    if custom_request:
+        response = http_get(link)  # using the custom request implementation
+    else:
+        response = requests.get(link)  # using the requests library
+
 
     if response.status_code != 200:
         print(f'[error]: Failed to fetch page {link}')
