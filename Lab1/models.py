@@ -1,5 +1,7 @@
 from datetime import datetime
 
+from Lab1.serialize import PyObject
+
 
 class CarModel:
     """
@@ -28,6 +30,9 @@ class CarModel:
         for key, value in self.__dict__.items():
             string += f'<{key}>{value}</{key}>'
         return string + "</car>"
+
+    def to_PyObject(self):
+        return PyObject.set(self.__dict__)
 
 
 
@@ -70,3 +75,16 @@ class TotalPriceModel:
             else:
                 string += f'<{key}>{value}</{key}>'
         return string + "</total>"
+
+    def to_PyObject(self):
+        string = '{'
+        for key, value in self.__dict__.items():
+            if key == "cars":
+                string += f'{key}: ['
+                for car in value:
+                    string += car.to_PyObject() + ", "
+                string = string[:-2] + "], "
+            else:
+                string += f'{key}: {PyObject.set(value)}, '
+
+        return string[:-2] + "}"

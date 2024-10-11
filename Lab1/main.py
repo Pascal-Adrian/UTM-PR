@@ -44,6 +44,8 @@ def serialize(cars_list: TotalPriceModel, extension: str):
         save_to_file(cars_list.to_json(), 'cars_list', 'json')
     elif extension == 'xml':
         save_to_file(cars_list.to_xml(), 'cars_list', 'xml')
+    elif extension == 'pyobj':
+        save_to_file(cars_list.to_PyObject(), 'cars_list', 'pyobj')
     else:
         raise Exception('Invalid extension')  # raise exception if the extension is invalid
 
@@ -59,3 +61,5 @@ if __name__ == '__main__':
 
     serialize(cars_list, 'json')
     serialize(cars_list, 'xml')
+    serialize(cars_list, 'pyobj')
+
