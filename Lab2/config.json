@@ -1,0 +1,15 @@
+{
+  "db": {
+    "url": "db:5432/lab2-db",
+    "username": "admin",
+    "password": "admin",
+    "driver": "psychopg"
+  },
+  "jwt": {
+    "secret": "S0m3-H1ghly-S3cur3-K3y",
+    "exp": "12",
+    "algorithm": "HS256",
+    "issuer": "localhost:8000",
+    "audience": "localhost:8001"
+  }
+}
