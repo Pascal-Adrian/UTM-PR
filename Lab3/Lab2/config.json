@@ -1,0 +1,8 @@
+{
+  "db": {
+    "url": "localhost:5432/lab2-db",
+    "username": "admin",
+    "password": "admin",
+    "driver": "psychopg"
+  }
+}
