@@ -12,7 +12,7 @@ services:
       - app_network
 
   app:
-    build: .
+     build: .
     container_name: lab2-app
     volumes:
       - .:/app
