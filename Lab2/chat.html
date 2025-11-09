@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat WebSocket Client</title>
+</head>
+<body>
+    <h1 id="name">Chat Room UI</h1>
+    <main id="main">
+        <div id="messages"></div>
+        <div id="send-box">
+            <input type="text" id="message" name="message">
+            <button id="send" onclick="sendMessage()">Send</button>
+        </div>
+        <div id="status"></div>
+    </main>
+    <script>
+        const addMessage = (message) => {
+            const chat = document.getElementById('messages');
+            const div = document.createElement('div');
+            const nameSpan = div.appendChild(document.createElement('span'));
+            nameSpan.textContent = message.sender + ': ';
+            const messageSpan = div.appendChild(document.createElement('span'));
+            messageSpan.textContent = message.message;
+            chat.appendChild(div);
+        };
+
+        const getPreviousMessages = async () => {
+            const response = await fetch('http://localhost:8001/chat/messages');
+            const messages = await response.json();
+            const chat = document.getElementById('messages');
+            messages.forEach(message => {
+                addMessage(message);
+            });
+        };
+
+        const addStatus = (status, type) => {
+            const statusDiv = document.getElementById('status');
+            statusDiv.textContent = status;
+            if (type === 'error') {
+                statusDiv.style.color = 'red';
+            } else {
+                statusDiv.style.color = 'inherit';
+            }
+        };
+
+        getPreviousMessages();
+
+        const ws = new WebSocket('ws://localhost:8001/chat/ws');
+
+        ws.onopen = () => {
+            addStatus('Connected to the server');
+            console.log('Connected to the server');
+        };
+
+        ws.onerror = (error) => {
+            addStatus('Error: ' + error, 'error');
+            console.error('Error: ', error);
+        };
+
+        ws.onclose = () => {
+            addStatus('Connection closed', 'error');
+            console.log('Connection closed');
+        };
+
+        ws.onmessage = (message) => {
+            const data = JSON.parse(message.data);
+            addMessage(data);
+        };
+
+        const sendMessage = () => {
+            const message = document.getElementById('message').value;
+            const data = {
+                command: "send",
+                message: message
+            };
+            ws.send(JSON.stringify(data));
+            document.getElementById('message').value = '';
+        };
+    </script>
+</body>
+</html>

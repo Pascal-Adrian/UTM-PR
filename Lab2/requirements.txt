@@ -1,0 +1,10 @@
+fastapi[standard]
+sqlalchemy
+uvicorn
+pydantic
+psycopg2-binary
+typing
+pyjwt
+passlib
+bcrypt
+websocket-client

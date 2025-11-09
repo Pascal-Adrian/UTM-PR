@@ -1,2 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<total><total_price>877431.0129000001</total_price><cars><car><manufacturer>Skoda</manufacturer><model>Superb</model><price>212578.7729</price><currency>MDL</currency><year>2011</year><link>https://999.md/ro/84614749</link></car><car><manufacturer>Mercedes</manufacturer><model>E-Class</model><price>219362.58500000002</price><currency>MDL</currency><year>2007</year><link>https://999.md/ro/88372986</link></car><car><manufacturer>Toyota</manufacturer><model>Camry</model><price>241588.75000000003</price><currency>MDL</currency><year>2012</year><link>https://999.md/ro/87449377</link></car><car><manufacturer>Mitsubishi</manufacturer><model>Outlander</model><price>203900.90500000003</price><currency>MDL</currency><year>2010</year><link>https://999.md/ro/87738410</link></car></cars><time_stamp>1728629845.041541</time_stamp></total>
+<total>
+    <total_price>1668935.9952000002</total_price>
+    <cars>
+        <car>
+            <manufacturer>Volkswagen</manufacturer>
+            <model>Passat CC</model>
+            <price>249903.03480000002</price>
+            <currency>MDL</currency>
+            <year>2013</year>
+            <link>https://999.md/ro/86012952</link>
+        </car>
+        <car>
+            <manufacturer>BMW</manufacturer>
+            <model>7 Series</model>
+            <price>214757.6748</price>
+            <currency>MDL</currency>
+            <year>2007</year>
+            <link>https://999.md/ro/88205423</link>
+        </car>
+        <car>
+            <manufacturer>Ford</manufacturer>
+            <model>Kuga</model>
+            <price>257713.1148</price>
+            <currency>MDL</currency>
+            <year>2017</year>
+            <link>https://999.md/ro/88711194</link>
+        </car>
+        <car>
+            <manufacturer>Lexus</manufacturer>
+            <model>CT Series</model>
+            <price>238207.44000000003</price>
+            <currency>MDL</currency>
+            <year>2012</year>
+            <link>https://999.md/ro/88882325</link>
+        </car>
+        <car>
+            <manufacturer>Nissan</manufacturer>
+            <model>Qashqai</model>
+            <price>247774.78800000003</price>
+            <currency>MDL</currency>
+            <year>2018</year>
+            <link>https://999.md/ro/83856167</link>
+        </car>
+        <car>
+            <manufacturer>Peugeot</manufacturer>
+            <model>3008</model>
+            <price>238012.18800000002</price>
+            <currency>MDL</currency>
+            <year>2019</year>
+            <link>https://999.md/ro/64986633</link>
+        </car>
+        <car>
+            <manufacturer>Renault</manufacturer>
+            <model>Megane</model>
+            <price>222567.75480000002</price>
+            <currency>MDL</currency>
+            <year>2016</year>
+            <link>https://999.md/ro/85000087</link>
+        </car>
+    </cars>
+    <time_stamp>1730824716.860069</time_stamp>
+</total>
